@@ -18,24 +18,37 @@ var config = {
   };
   
   var game = new Phaser.Game(config);
+  var level = 2;
+  var input;
+  var lock = 0;
+  var deaths = 0;
+  var clicks = 0;
+  var playerXSpawn = 0;
+  var playerYspawn = 0;
+  var currentClicks = 0;  
   
+
   function preload() {
-    this.load.tilemapTiledJSON('map', 'assets/map2.json');
-    // tiles in spritesheet 
- 
-    this.load.image('tiles', 'assets/tiles2.png')
-    this.load.image('player', 'assets/player.png');
+
+    if(level == 1){
+        this.load.tilemapTiledJSON('map', 'assets/map1.json');
+        this.load.image('tiles', 'assets/tiles2.png')
+        this.load.image('player', 'assets/player.png'); 
+        playerXSpawn = 100;
+        playerYspawn = 450;
+    }
+    if(level == 2){
+        this.load.tilemapTiledJSON('map', 'assets/map2.json');
+        this.load.image('tiles', 'assets/tiles2.png')
+        this.load.image('player', 'assets/player.png'); 
+        playerXSpawn = 90;
+        playerYspawn = 100;
+    }
+  
     // simple coin image
 
   }
   
-var input;
-var lock = 0;
-var deaths = 0;
-var clicks = 0;
-var playerXSpawn = 70;
-var playerYspawn = 100;
-var currentClicks = 0;
 
 function create() {
     input=this.input;
@@ -90,7 +103,7 @@ function create() {
     });
 
 
-
+    player.setCollideWorldBounds(false,true,true,true);
         // set bounds so the camera won't go outside the game world
     this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
         // make the camera follow the player
