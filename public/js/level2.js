@@ -1,8 +1,9 @@
 var config = {
     type: Phaser.AUTO,
-    parent: 'phaser-example',
-    width: 640,
-    height: 640,
+    parent: 'mainContent',
+    width: 900,
+    height: 900,
+
     physics: {
       default: 'arcade',
       arcade: {
@@ -18,7 +19,7 @@ var config = {
   };
   
   var game = new Phaser.Game(config);
-  var level = 2;
+  var level = 1;
   var input;
   var lock = 0;
   var deaths = 0;
@@ -26,7 +27,7 @@ var config = {
   var playerXSpawn = 0;
   var playerYspawn = 0;
   var currentClicks = 0;  
-  
+
 
   function preload() {
 
@@ -34,15 +35,15 @@ var config = {
         this.load.tilemapTiledJSON('map', 'assets/map1.json');
         this.load.image('tiles', 'assets/tiles2.png')
         this.load.image('player', 'assets/player.png'); 
-        playerXSpawn = 100;
+        playerXSpawn = 230;
         playerYspawn = 450;
     }
     if(level == 2){
         this.load.tilemapTiledJSON('map', 'assets/map2.json');
         this.load.image('tiles', 'assets/tiles2.png')
         this.load.image('player', 'assets/player.png'); 
-        playerXSpawn = 90;
-        playerYspawn = 100;
+        playerXSpawn = 220;
+        playerYspawn = 230;
     }
   
     // simple coin image
@@ -56,15 +57,15 @@ function create() {
     const map = this.make.tilemap({ key: 'map' })
     const tileset = map.addTilesetImage('Sprits', 'tiles')
 
-    groundLayer = map.createDynamicLayer('Ground', tileset, 0, 0);
+    groundLayer = map.createDynamicLayer('Ground', tileset, 130, 130);
    
     groundLayer.setCollisionByExclusion([-1]);
   
-    deathLayer = map.createDynamicLayer('Death', tileset, 0, 0);
+    deathLayer = map.createDynamicLayer('Death', tileset, 130, 130);
 
     deathLayer.setCollisionByExclusion([-1]);
 
-    goalLayer = map.createDynamicLayer('Goal', tileset, 0, 0);
+    goalLayer = map.createDynamicLayer('Goal', tileset, 130, 130);
 
     goalLayer.setCollisionByExclusion([-1]);
 
@@ -73,7 +74,7 @@ function create() {
     clickC = this.add.text(0, 40, 'Jumps: 0', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#ffff00', fontSize: '32px' });
     clickTotC = this.add.text(400, 0, 'Total jumps: 0', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#ffff00', fontSize: '32px' });
     this.cameras.main.setBackgroundColor("#d5d5d5");
-    player = this.physics.add.sprite(200, 200, 'player'); 
+    player = this.physics.add.sprite(330, 330, 'player'); 
     player.setBounce(0); 
     
    
@@ -98,7 +99,10 @@ function create() {
     });
     this.physics.add.collider(player, goalLayer, function () {
       console.log("You WIN!")
+      level++;
+      
       player.setVelocity(0);
+  
       
     });
 
@@ -119,12 +123,23 @@ function create() {
   function update() {
     player.setDrag(100);
 
-    if(player.y > 4000){
+    if(player.y > 2000){
       player.y = playerYspawn;
       player.x = playerXSpawn;
       player.setVelocity(0);
     }
 
+    if(player.x < -20){
+      
+      player.x = 900;
+  
+    }  
+    if(player.x > 900+1){
+    
+      player.x = -10;
+  
+    }
+    
 
 
     this.input.on('pointerdown', pointer => {
@@ -140,6 +155,7 @@ function create() {
     this.input.on('pointerup', pointer => {
       if(lock > 0){
         lock -= 1;
+   
       }
   });
 
