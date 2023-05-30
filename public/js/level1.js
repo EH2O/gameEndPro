@@ -32,7 +32,7 @@ var config = {
   var goNextLevel = false; 
   var playing = true; 
   let rect1;
-  let i = 0;
+  let i = 1;
   var counter = 0;
   function preload() {
 
@@ -172,10 +172,12 @@ else{
 
   if(i < 2){
   rect1 = this.add.rectangle(0, 0, 10000, 100000, 0x000000, 0.4);
+  
+  this.add.text(width/2-120, height/2-40, 'YOU WIN', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#ffffff', fontSize: '64px' });
+
   i++;
   }
 
-  this.add.text(width/2-120, height/2-40, 'YOU WIN', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#ffffff', fontSize: '64px' });
 
  
 }
