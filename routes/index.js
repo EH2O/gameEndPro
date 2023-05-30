@@ -156,68 +156,6 @@ router.get('/logout', async function(req, res, next){
 
 
 
-router.post('/new', async function (req, res, next) {
-    console.log(req.body)
-    const {title, content } = req.body;
-    errors = [];
-    if (!title) {
-       errors.push('Title is Required')
-    }
-
-    if (!content) {
-       errors.push('Body is Required')
-    }
-
-
-    if (title && title.length <= 3){    
-        errors.push('Title must be at least 3 characters');    
-    }
-
-    if (content && content.length <= 10){
-        errors.push('Body must be at least 10 characters');
-    }
-
-    if(errors.length === 0) {
-
-        const id = req.session.userId;
-        const sanitize = (str) =>{
-            let temp = str.trim();
-            temp = validator.stripLow(temp);
-            temp = validator.escape(temp);
-            return temp;
-        }
-      
-
-    
-        sanitizeTitle = sanitize(title);
- 
-        sanitizeBody = sanitize(content);
-       
-        // kör frågan för att skapa ett nytt inlägg
-        const [rows] = await promisePool.query('INSERT INTO eho02forum (authorId, title, content) VALUES (?, ?, ?)', [id, sanitizeTitle, sanitizeBody]);      
-        res.redirect('/'); 
-    }else{
-        res.render('new.njk', {
-            title: 'Nytt inlägg',
-            user: req.session.username,
-            msg: errors,
-        });
-        
-    }
-});
-
-router.get('/new', async function (req, res, next) {
-    if(!req.session.loggedin){
-        res.redirect('/login')
-    }else{
-
-    res.render('new.njk', {
-        title: 'Nytt inlägg',
-        user: req.session.username,
-    });
-    
-    }
-});
 
 router.get('/profile', async function (req, res, next) {
     if(!req.session.loggedin){
@@ -226,10 +164,30 @@ router.get('/profile', async function (req, res, next) {
 
     res.render('profile.njk', {
         title: 'profile',
+         loggedin: req.session.loggedin,
     });
     
     }
 });
+router.get('/level1', async function (req, res, next) {
+    if(!req.session.loggedin){
+        res.redirect('/login')
+    }else{
+
+    res.render('level1.njk', {        loggedin: req.session.loggedin,});
+    
+    }
+});
+router.get('/level2', async function (req, res, next) {
+    if(!req.session.loggedin){
+        res.redirect('/login')
+    }else{
+
+    res.render('level2.njk', {        loggedin: req.session.loggedin,});
+    
+    }
+});
+
 
 
 
@@ -243,3 +201,4 @@ router.post('/delete', async function (req, res, next) {
         res.redirect('/logout')
     }
 });
+

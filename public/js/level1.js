@@ -21,7 +21,7 @@ var config = {
   var height= 900;
   var width = 900;
   var game = new Phaser.Game(config);
-  var level = 2;
+  var level = 1;
   var input;
   var lock = 0;
   var deaths = 0;
