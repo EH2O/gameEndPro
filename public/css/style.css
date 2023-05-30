@@ -88,16 +88,12 @@ body {
   color: rgb(66, 66, 66);
 }
 
-.textInpus {
-  rows: 60;
-  cols: 10;
-}
-
 .login {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-inline: 20rem;
+  max-width: 20rem;
+  margin-inline: auto;
 }
 .login .password {
   margin: 0rem 0 2rem 0;
